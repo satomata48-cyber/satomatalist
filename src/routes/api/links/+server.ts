@@ -17,10 +17,11 @@ export interface Link {
 export const GET: RequestHandler = async () => {
 	try {
 		const links = await redis.get<Link[]>(LINKS_KEY);
-		return json(links || []);
+		const result = Array.isArray(links) ? links : [];
+		return json(result);
 	} catch (error) {
 		console.error('Failed to get links:', error);
-		return json([]);
+		return json([], { status: 500 });
 	}
 };
 

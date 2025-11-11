@@ -1,7 +1,17 @@
 import { Redis } from '@upstash/redis';
 import { env } from '$env/dynamic/private';
 
+const url = env.UPSTASH_REDIS_REST_URL;
+const token = env.UPSTASH_REDIS_REST_TOKEN;
+
+if (!url || !token) {
+	console.error('Redis configuration missing:', {
+		hasUrl: !!url,
+		hasToken: !!token
+	});
+}
+
 export const redis = new Redis({
-	url: env.UPSTASH_REDIS_REST_URL || '',
-	token: env.UPSTASH_REDIS_REST_TOKEN || ''
+	url: url || '',
+	token: token || ''
 });
